@@ -12,10 +12,12 @@ type PropsComponent = {
     id: string
     tagId: number
   }[]
+  onPhotoSelected: (any: any) => void
 }
 
 const GalleryContainer = styled.div`
   display: flex;
+  gap: 24px;
 `
 
 const FluidSection = styled.section`
@@ -29,7 +31,7 @@ const ImageContainer = styled.section`
   gap: 24px;
 `
 
-export const Gallery = ({ photos = [] }: PropsComponent) => (
+export const Gallery = ({ photos = [], onPhotoSelected }: PropsComponent) => (
   <>
     <Tags />
     <GalleryContainer>
@@ -37,7 +39,11 @@ export const Gallery = ({ photos = [] }: PropsComponent) => (
         <Title>Navegue pela Galeria</Title>
         <ImageContainer>
           {photos.map((photo) => (
-            <Image key={photo.id} photo={photo} />
+            <Image
+              key={photo.id}
+              photo={photo}
+              onZoomClicked={onPhotoSelected}
+            />
           ))}
         </ImageContainer>
       </FluidSection>

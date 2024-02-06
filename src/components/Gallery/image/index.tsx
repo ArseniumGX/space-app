@@ -10,6 +10,7 @@ type PropsComponent = {
     tagId: number
   }
   expanded?: boolean
+  onZoomClicked?: (any: any) => void
 }
 
 const FigureStyled = styled.figure`
@@ -56,6 +57,7 @@ const Footer = styled.footer`
 export const Image = ({
   photo,
   expanded = false,
+  onZoomClicked,
 }: Readonly<PropsComponent>) => (
   <FigureStyled>
     <img src={photo.path} alt={`Foto ${photo.titulo}`} />
@@ -67,7 +69,10 @@ export const Image = ({
           <img src="/icones/favorito.png" alt="Ícone de favorito" />
         </IconButton>
         {!expanded && (
-          <IconButton aria-hidden={expanded}>
+          <IconButton
+            aria-hidden={expanded}
+            onClick={() => onZoomClicked(photo)}
+          >
             <img src="/icones/expandir.png" alt="Ícone de expandir" />
           </IconButton>
         )}
