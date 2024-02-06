@@ -13,6 +13,7 @@ type PropsComponent = {
     tagId: number
   }[]
   onPhotoSelected: (any: any) => void
+  toggleFavorite: (any: any) => void
 }
 
 const GalleryContainer = styled.div`
@@ -31,7 +32,11 @@ const ImageContainer = styled.section`
   gap: 24px;
 `
 
-export const Gallery = ({ photos = [], onPhotoSelected }: PropsComponent) => (
+export const Gallery = ({
+  photos = [],
+  onPhotoSelected,
+  toggleFavorite,
+}: PropsComponent) => (
   <>
     <Tags />
     <GalleryContainer>
@@ -43,6 +48,7 @@ export const Gallery = ({ photos = [], onPhotoSelected }: PropsComponent) => (
               key={photo.id}
               photo={photo}
               onZoomClicked={onPhotoSelected}
+              toggleFavorite={toggleFavorite}
             />
           ))}
         </ImageContainer>

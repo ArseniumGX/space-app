@@ -8,9 +8,11 @@ type PropsComponent = {
     path: string
     id: string
     tagId: number
+    favorita?: boolean
   }
   expanded?: boolean
   onZoomClicked?: (any: any) => void
+  toggleFavorite: (any: any) => void
 }
 
 const FigureStyled = styled.figure`
@@ -58,25 +60,32 @@ export const Image = ({
   photo,
   expanded = false,
   onZoomClicked,
-}: Readonly<PropsComponent>) => (
-  <FigureStyled>
-    <img src={photo.path} alt={`Foto ${photo.titulo}`} />
-    <figcaption>
-      <h3>{photo.titulo}</h3>
-      <Footer>
-        <h4>{photo.fonte}</h4>
-        <IconButton>
-          <img src="/icones/favorito.png" alt="Ícone de favorito" />
-        </IconButton>
-        {!expanded && (
-          <IconButton
-            aria-hidden={expanded}
-            onClick={() => onZoomClicked(photo)}
-          >
-            <img src="/icones/expandir.png" alt="Ícone de expandir" />
+  toggleFavorite,
+}: Readonly<PropsComponent>) => {
+  const favoriteIcon = photo.favorita
+    ? "/icones/favorito-ativo.png"
+    : "/icones/favorito.png"
+
+  return (
+    <FigureStyled>
+      <img src={photo.path} alt={`Foto ${photo.titulo}`} />
+      <figcaption>
+        <h3>{photo.titulo}</h3>
+        <Footer>
+          <h4>{photo.fonte}</h4>
+          <IconButton onClick={() => toggleFavorite(photo)}>
+            <img src={favoriteIcon} alt="Ícone de favorito" />
           </IconButton>
-        )}
-      </Footer>
-    </figcaption>
-  </FigureStyled>
-)
+          {!expanded && (
+            <IconButton
+              aria-hidden={expanded}
+              onClick={() => onZoomClicked(photo)}
+            >
+              <img src="/icones/expandir.png" alt="Ícone de expandir" />
+            </IconButton>
+          )}
+        </Footer>
+      </figcaption>
+    </FigureStyled>
+  )
+}

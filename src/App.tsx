@@ -9,6 +9,15 @@ import { Gallery } from "./components/Gallery"
 import { useState } from "react"
 import { ModalZoom } from "./components/ModalZoom"
 
+type Photo = {
+  titulo: string
+  fonte: string
+  path: string
+  id: string
+  tagId: number
+  favorita: boolean
+}
+
 const GradientBackground = styled.div`
   background: linear-gradient(
     174.61deg,
@@ -41,6 +50,21 @@ export const App = () => {
   const [photosGallery, setPhotosGallery] = useState(photos)
   const [selectedPhoto, setSelectedPhoto] = useState(null)
 
+  const toggleFavorite = (photo: Photo) => {
+    if (photo.id === selectedPhoto?.id) {
+      setSelectedPhoto({ ...selectedPhoto, favorita: !selectedPhoto.favorita })
+    }
+    setPhotosGallery(
+      photosGallery.map((photoGallery) => ({
+        ...photoGallery,
+        favorita:
+          photoGallery.id === photo.id
+            ? !photo.favorita
+            : photoGallery.favorita,
+      }))
+    )
+  }
+
   return (
     <GradientBackground>
       <GlobalStyles />
@@ -56,11 +80,16 @@ export const App = () => {
             <Gallery
               onPhotoSelected={(photo) => setSelectedPhoto(photo)}
               photos={photosGallery}
+              toggleFavorite={toggleFavorite}
             />
           </ContentGalley>
         </MainContainer>
       </AppContainer>
-      <ModalZoom photo={selectedPhoto} onclose={() => setSelectedPhoto(null)} />
+      <ModalZoom
+        photo={selectedPhoto}
+        onclose={() => setSelectedPhoto(null)}
+        toggleFavorite={toggleFavorite}
+      />
     </GradientBackground>
   )
 }
